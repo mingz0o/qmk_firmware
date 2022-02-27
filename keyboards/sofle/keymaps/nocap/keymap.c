@@ -286,7 +286,7 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
         current_frame = (current_frame + 1) % 2;
 
         /* current status */
-        if (led_usb_state.shift) {
+        if (led_usb_state.caps_lock) {
             oled_write_raw_P(bark[abs(1 - current_frame)], ANIM_SIZE);
 
         } else if (isSneaking) {
@@ -331,14 +331,18 @@ static void print_logo_narrow(void) {
 
     /* wpm counter */
     uint8_t n = get_current_wpm();
+    // oled_write(current_wpm, false);
     char    wpm_str[4];
     // oled_set_cursor(0, 14);
     // sprintf(wpm_str, "%03d", get_current_wpm());  // edit the string to change wwhat shows up, edit %03d to change how many digits show up
-    // oled_write(wpm_str, true);                       // writes wpm on top left corner of string
-    wpm_str[3] = '\0';
-    wpm_str[2] = '0' + n % 10;
-    wpm_str[1] = '0' + (n /= 10) % 10;
+    // oled_write(wpm_str, true);
+                         // writes wpm on top left corner of string
+    // wpm_str[3] = '\0';
     wpm_str[0] = '0' + n / 10;
+    wpm_str[1] = '0' + (n /= 10) % 10;
+    wpm_str[2] = '0' + n % 10;
+    wpm_str[3] = '\0';
+
     oled_write(wpm_str, false);
 
     oled_set_cursor(0, 15);
@@ -396,7 +400,7 @@ static void print_status_narrow(void) {
 
     /* caps lock */
     oled_set_cursor(0, 8);
-    oled_write("SHIFT", led_usb_state.shift);
+    oled_write("SHIFT", led_usb_state.caps_lock);
 
     /* KEYBOARD PET RENDER START */
 
